@@ -394,12 +394,15 @@ class Element(TypedContent):
 
     def __init__(self, schema, root):
         TypedContent.__init__(self, schema, root)
-        a = root.get('form')
-        if a is not None:
-            self.form_qualified = ( a == 'qualified' )
-        a = self.root.get('nillable')
-        if a is not None:
-            self.nillable = ( a in ('1', 'true') )
+        if (self.ref is not None) or (root.parent is schema.root):
+            self.form_qualified = True
+        else:
+            form = root.get('form')
+            if form is not None:
+                self.form_qualified = (form == 'qualified')
+        nillable = self.root.get('nillable')
+        if nillable is not None:
+            self.nillable = (nillable in ('1', 'true'))
         self.implany()
 
     def implany(self):
