@@ -40,7 +40,13 @@ class Text(unicode):
         if cls.__valid(*args):
             lang = kwargs.pop('lang', None)
             escaped = kwargs.pop('escaped', False)
-            result = super(Text, cls).__new__(cls, *args, **kwargs)
+            try:
+                result = super(Text, cls).__new__(cls, *args, **kwargs)
+            except UnicodeDecodeError:
+                if 'encoding' in kwargs:
+                    raise
+                kwargs['encoding'] = 'utf-8'
+                result = super(Text, cls).__new__(cls, *args, **kwargs)
             result.lang = lang
             result.escaped = escaped
         else:
