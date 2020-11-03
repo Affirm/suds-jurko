@@ -34,8 +34,8 @@ class TestUsernameToken:
 
     def setup(self):
         self.username_token = UsernameToken(
-            username="foouser",
-            password="barpasswd",
+            username=b"foouser",
+            password=b"barpasswd",
         )
 
     def test_setnonce_null(self):
@@ -45,5 +45,5 @@ class TestUsernameToken:
 
     def test_setnonce_text(self):
         self.setup()
-        self.username_token.setnonce("affirm")
-        assert self.username_token.nonce == "affirm"
+        self.username_token.setnonce(b"affirm")
+        assert self.username_token.nonce == b"affirm"
