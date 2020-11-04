@@ -112,6 +112,7 @@ def pytest_configure(config):
         "argument list and keyword argument dictionary) based on the received "
         "input data. For more detailed information see the "
         "indirect_parametrize pytest plugin implementation module.")
+    pytest.indirect_parametrize = indirect_parametrize_plugin()
 
 
 def pytest_generate_tests(metafunc):
@@ -125,6 +126,5 @@ def pytest_generate_tests(metafunc):
     metafunc.parametrize(*args, **kwargs)
 
 
-def pytest_namespace():
-    """pytest hook publishing references in the toplevel pytest namespace."""
-    return {'indirect_parametrize': indirect_parametrize}
+def indirect_parametrize_plugin():
+    return indirect_parametrize

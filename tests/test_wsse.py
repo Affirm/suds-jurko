@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the (LGPL) GNU Lesser General Public License as
 # published by the Free Software Foundation; either version 3 of the
@@ -12,15 +14,36 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+# written by: Jurko Gospodnetić ( jurko.gospodnetic@pke.hr )
 
 """
-Module containing the library's version information.
-
-  This version information has been extracted into a separate file so it can be
-read from the setup.py script without having to import the suds package itself.
-See the setup.py script for more detailed information.
-
+Implemented using the 'pytest' testing framework.
 """
 
-__version__ = "0.6.4+affirm"
-__build__ = ""
+if __name__ == "__main__":
+    import __init__
+    __init__.runUsingPyTest(globals())
+
+
+from suds.wsse import UsernameToken
+
+
+class TestUsernameToken:
+
+    username_token = None
+
+    def setup(self):
+        self.username_token = UsernameToken(
+            username=b"foouser",
+            password=b"barpasswd",
+        )
+
+    def test_setnonce_null(self):
+        self.setup()
+        self.username_token.setnonce()
+        assert self.username_token.nonce != None
+
+    def test_setnonce_text(self):
+        self.setup()
+        self.username_token.setnonce(b"affirm")
+        assert self.username_token.nonce == b"affirm"
